@@ -35,4 +35,13 @@ ProcessResult run_process(const std::string& executable, const std::vector<std::
     while (fgets(buffer.data(), static_cast<int>(buffer.size()), pipe) != nullptr) {
         result.output += buffer.data();
     }
+
+    int status = PCLOSE(pipe);
+    #ifdef _WIN32
+    result.exit_code = status;
+    #else
+    result.exit_code = WEXITSTATUS(status);
+    #endif
+
+    return result;
 }
