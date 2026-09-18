@@ -17,6 +17,11 @@ static std::string build_command_line(const std::string& executable, const std::
         cmd += " \"" + arg + "\"";
     }
     cmd += " 2>&1";
+
+    #ifdef _WIN32
+    cmd = "\"" + cmd + "\"";
+    #endif
+
     return cmd;
 }
 
